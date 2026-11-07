@@ -1,0 +1,5 @@
+node_modules
+.next
+.taste-skill
+next-env.d.ts
+*.tsbuildinfo

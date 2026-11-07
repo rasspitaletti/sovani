@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@font-face { font-family: "Boska"; src: url("/fonts/boska-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Boska"; src: url("/fonts/boska-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Boska"; src: url("/fonts/boska-400i.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Satoshi"; src: url("/fonts/satoshi-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Satoshi"; src: url("/fonts/satoshi-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+
+/* Provisional identity, taken from the lagoon at night. Swap these tokens when the art references arrive. */
+@theme {
+  --color-bg: #050b10;
+  --color-surface: #0c161d;
+  --color-ink: #f1f2ee;
+  --color-muted: #a8b3b5;
+  --color-sand: #e2e0d6;
+  --font-display: "Boska", Georgia, serif;
+  --font-text: "Satoshi", system-ui, sans-serif;
+}
+
+:root {
+  --glow: #ffb98a;
+  --margin: clamp(1.25rem, 3vw, 2.5rem);
+  --gutter: clamp(1rem, 2vw, 1.75rem);
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-sub: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
+  --step-head: clamp(2.25rem, 1.5rem + 3.2vw, 4.25rem);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-wipe: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html { background: var(--color-bg); color: var(--color-ink); scrollbar-color: #2b3a42 var(--color-bg); }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: clip; }
+body { font-family: var(--font-text); font-size: var(--step-body); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+::selection { background: var(--glow); color: #06121a; }
+:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+button { cursor: pointer; }
+.font-display { font-family: var(--font-display); }
+
+.skip { position: fixed; left: var(--margin); top: -4rem; z-index: 100; background: var(--color-ink); color: #06121a; padding: .5rem 1rem; }
+.skip:focus { top: .75rem; }
+
+/* Layout */
+.grid-page { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); padding-inline: var(--margin); }
+.section { padding-top: clamp(6rem, 14vw, 13rem); }
+.section-top { margin-top: clamp(6rem, 14vw, 13rem); }
+
+/* Type */
+.display-hero { font-family: var(--font-display); font-weight: 400; font-size: clamp(4.1rem, 14.8vw, 15.5rem); line-height: .86; letter-spacing: -.035em; text-wrap: balance; }
+.hero-line { display: block; overflow: clip; padding-bottom: .1em; margin-bottom: -.1em; padding-inline: .05em; }
+.hero-line > span { display: block; }
+.display-sec { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.9rem, 7.4vw, 7.5rem); line-height: .95; letter-spacing: -.03em; }
+.head { font-family: var(--font-display); font-weight: 400; font-size: var(--step-head); line-height: 1; letter-spacing: -.025em; }
+.wordmark { font-family: var(--font-display); letter-spacing: -.01em; }
+
+/* Hero */
+.hero-scrim { background: linear-gradient(to bottom, rgb(3 8 12 / .34), transparent 34%, transparent 62%, rgb(3 8 12 / .62)); pointer-events: none; }
+.roof-slat { background: #030609; transform-origin: center; margin-bottom: -1px; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .roof { animation: roof-gone 1ms linear 1.35s forwards; }
+  .js .roof-slat { animation: roof-open .85s var(--ease-wipe) both; }
+  .js .hero-line > span { animation: line-up 1.1s cubic-bezier(.16,1,.3,1) backwards; }
+  .js .hero-after { animation: after-up .8s cubic-bezier(.16,1,.3,1) 1s backwards; }
+}
+@media (prefers-reduced-motion: reduce) { .roof { display: none; } }
+@keyframes roof-open { to { transform: scaleY(0); } }
+@keyframes roof-gone { to { visibility: hidden; } }
+@keyframes line-up { from { transform: translateY(108%); } }
+@keyframes after-up { from { transform: translateY(18px); opacity: 0; } }
+.scroll-cue svg { animation: cue 2.2s var(--ease-out) infinite; }
+@keyframes cue { 0%, 100% { transform: translateY(-2px); opacity: .6; } 50% { transform: translateY(3px); opacity: 1; } }
+
+/* Glass: real material on things that float over the live scene */
+.glass { background: rgb(6 14 20 / .42); backdrop-filter: blur(16px) saturate(1.5); -webkit-backdrop-filter: blur(16px) saturate(1.5); border: 1px solid rgb(255 255 255 / .16); box-shadow: inset 0 1px 0 rgb(255 255 255 / .14), 0 16px 40px rgb(0 0 0 / .25); border-radius: 18px; }
+.glass-deep { background: rgb(5 11 16 / .82); backdrop-filter: blur(26px) saturate(1.4); -webkit-backdrop-filter: blur(26px) saturate(1.4); }
+.glass-card { background: rgb(8 18 26 / .5); backdrop-filter: blur(22px) saturate(1.5); -webkit-backdrop-filter: blur(22px) saturate(1.5); border: 1px solid rgb(255 255 255 / .18); box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), 0 40px 90px rgb(0 0 0 / .45); border-radius: 22px; }
+
+/* Controls */
+.magnetic { display: inline-block; transition: transform .5s var(--ease-out); }
+.btn { display: inline-flex; align-items: center; gap: .5rem; min-height: 3rem; padding: 0 1.5rem; border-radius: 999px; font-size: .9375rem; font-weight: 500; white-space: nowrap; transition: transform .14s var(--ease-out), background-color .2s ease, color .2s ease, box-shadow .3s ease; }
+.btn:active { transform: scale(.97); }
+.btn-solid { background: var(--color-ink); color: #071218; }
+.btn-glass { background: rgb(6 14 20 / .4); color: var(--color-ink); backdrop-filter: blur(14px) saturate(1.5); -webkit-backdrop-filter: blur(14px) saturate(1.5); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .24); }
+.btn-roll { display: inline-block; overflow: clip; position: relative; }
+.btn-roll > span { display: block; transition: transform .42s var(--ease-out); }
+.btn-roll::after { content: attr(data-text); position: absolute; left: 0; top: 100%; white-space: nowrap; transition: transform .42s var(--ease-out); }
+.iconbtn { position: relative; display: inline-grid; place-items: center; width: 3rem; height: 3rem; border-radius: 999px; background: rgb(6 14 20 / .42); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .2); transition: background-color .2s ease; }
+.navlink { position: relative; font-size: .9375rem; padding: .35rem 0; }
+.navlink::after { content: ""; position: absolute; inset: auto 0 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease-out); }
+.chip { min-height: 2.75rem; padding: 0 1.1rem; border-radius: 999px; font-size: .9375rem; background: rgb(255 255 255 / .07); transition: background-color .2s ease, color .2s ease; }
+.chip[aria-pressed="true"] { background: var(--glow); color: #06121a; }
+.link-arrow { display: inline-flex; gap: .35rem; align-items: center; text-decoration: underline; text-underline-offset: .28em; text-decoration-color: var(--glow); }
+.foot-link { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .2em; transition: text-decoration-color .2s ease; padding-block: .1rem; display: inline-block; }
+.menu-link { display: block; font-family: var(--font-display); font-size: clamp(2.6rem, min(11vw, 12.5svh), 7rem); line-height: 1.04; letter-spacing: -.03em; transition: color .2s ease, transform .5s var(--ease-out); }
+.hour-range { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; }
+.hour-range::-webkit-slider-runnable-track { height: 2px; background: rgb(255 255 255 / .55); }
+.hour-range::-moz-range-track { height: 2px; background: rgb(255 255 255 / .55); }
+.hour-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -10px; border-radius: 50%; background: var(--glow); box-shadow: 0 0 22px var(--glow); }
+.hour-range::-moz-range-thumb { width: 22px; height: 22px; border: 0; border-radius: 50%; background: var(--glow); box-shadow: 0 0 22px var(--glow); }
+
+/* Villas and experiences */
+.villa-name { font-family: var(--font-display); font-size: var(--step-sub); line-height: 1.05; letter-spacing: -.02em; }
+.villa-card img, .xp-tile img { transition: transform 1.1s var(--ease-out); }
+.thumb { opacity: .6; transition: opacity .2s ease; }
+.thumb[aria-pressed="true"] { opacity: 1; outline: 2px solid var(--glow); outline-offset: 2px; }
+.faq summary::-webkit-details-marker { display: none; }
+
+/* Gallery */
+.g-wide { width: min(85vw, 62svh * 1.5); height: 62svh; }
+.g-tall { width: min(62vw, 62svh * .78); height: 62svh; }
+@media (max-width: 899px) {
+  .g-track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margin); }
+  .g-item { scroll-snap-align: start; }
+  .g-wide, .g-tall { height: 52svh; }
+}
+.g-item:has(button:focus-visible) { outline: 2px solid var(--glow); outline-offset: 3px; }
+
+/* Cursor */
+html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor input { cursor: none; }
+.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 200; }
+.cursor-dot { width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--glow); visibility: hidden; }
+.cursor-ring { width: 40px; height: 40px; margin: -20px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--glow); display: grid; place-items: center; font-size: .8125rem; transition: width .3s var(--ease-out), height .3s var(--ease-out), margin .3s var(--ease-out), background-color .3s ease; }
+.cursor-ring[data-active="1"] { width: 76px; height: 76px; margin: -38px; background: rgb(5 11 16 / .35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.cursor-ring span:empty { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover .btn-roll > span, .btn:hover .btn-roll::after { transform: translateY(-100%); }
+  .btn-solid:hover { background: var(--glow); }
+  .btn-glass:hover { background: rgb(255 255 255 / .16); }
+  .iconbtn:hover { background: rgb(255 255 255 / .18); }
+  .navlink:hover::after { transform: scaleX(1); transform-origin: left; }
+  .chip:hover:not([aria-pressed="true"]) { background: rgb(255 255 255 / .16); }
+  .menu-link:hover { color: var(--glow); transform: translateX(.18em); }
+  .foot-link:hover { text-decoration-color: currentColor; }
+  .villa-card:hover img, .xp-tile:hover img { transform: scale(1.035); }
+  .villa-card:hover .villa-name { color: var(--glow); }
+  .thumb:hover { opacity: 1; }
+}
+
+/* JS gate: without scripts nothing stays hidden and the roof never closes */
+html:not(.js) .roof { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+
+/* Header earns a surface only once it sits over content */
+.head-bar { transition: background-color .4s ease, backdrop-filter .4s ease, padding .4s var(--ease-out); }
+.head-bar[data-past="true"] { background: rgb(5 11 16 / .8); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); padding-block: .6rem; }
